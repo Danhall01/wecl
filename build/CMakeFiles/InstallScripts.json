@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/dan_hall/dev/src/cstdlib/build/cmake_install.cmake",
-		"/home/dan_hall/dev/src/cstdlib/build/src/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

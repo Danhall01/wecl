@@ -1,2 +1,0 @@
-/usr/bin/llvm-ar qc /home/dan_hall/dev/src/cstdlib/lib/libgc.a CMakeFiles/gc.dir/src/gc_clock.c.o CMakeFiles/gc.dir/src/gc_utility.c.o
-/usr/bin/llvm-ranlib /home/dan_hall/dev/src/cstdlib/lib/libgc.a
