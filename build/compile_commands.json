@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/dan_hall/dev/src/cstdlib/build",
+  "command": "/usr/bin/clang  -I/home/dan_hall/dev/src/cstdlib/include -std=gnu23 -o CMakeFiles/gc.dir/src/gc_clock.c.o -c /home/dan_hall/dev/src/cstdlib/src/gc_clock.c",
+  "file": "/home/dan_hall/dev/src/cstdlib/src/gc_clock.c",
+  "output": "CMakeFiles/gc.dir/src/gc_clock.c.o"
+},
+{
+  "directory": "/home/dan_hall/dev/src/cstdlib/build",
+  "command": "/usr/bin/clang  -I/home/dan_hall/dev/src/cstdlib/include -std=gnu23 -o CMakeFiles/gc.dir/src/gc_utility.c.o -c /home/dan_hall/dev/src/cstdlib/src/gc_utility.c",
+  "file": "/home/dan_hall/dev/src/cstdlib/src/gc_utility.c",
+  "output": "CMakeFiles/gc.dir/src/gc_utility.c.o"
+}
+]
