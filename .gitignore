@@ -16,6 +16,9 @@
 build/*
 run/*
 .cache/*
+lib/*
+*.a
+*.so
 
 # Executables
 *.exe
