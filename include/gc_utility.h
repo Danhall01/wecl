@@ -2,10 +2,21 @@
 #define _GC_UTILITY_H_
 
 #include <stdint.h>
+// Define a variable inside of a macro
 #define GC_MACRO_VAR(name)
 
-#define clamp(value, min, max) (value > max ? max : (value < min ? min : value));
+// Clamps value between min and max, all typees has to be castable between eachother
+#define gc_clamp(value, min, max) (value > max ? max : (value < min ? min : value));
 
+// Severity level of gc functions in increasing order, 0 is debug, highest is fatal error
+enum GC_SEVERITY : uint8_t
+{
+    GC_SEVERITY_DEBUG = 0,
+    GC_SEVERITY_LOG,
+    GC_SEVERITY_WARNING,
+    GC_SEVERITY_ERROR,
+    GC_SEVERITY_FATAL,
+};
 
 // Executes the 'before' function before the scope and the 'after' function after the scope (For
 // conditional scope use gc_defer_cond)

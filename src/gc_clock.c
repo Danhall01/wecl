@@ -29,7 +29,7 @@ double gc_getTime(gc_clock_t* timer)
                 + (now.tv_nsec - timer->tick.tv_nsec) / 1000000000.f;
 #endif
     if (timer->limitHigh != 0 && timer->limitLow != 0)
-        return clamp(deltaTime, timer->limitLow, timer->limitHigh);
+        return gc_clamp(deltaTime, timer->limitLow, timer->limitHigh);
     return deltaTime;
 }
 
