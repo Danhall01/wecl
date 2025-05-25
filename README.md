@@ -1,0 +1,1 @@
+include GC_LOG_SILENT if you're using a custom callback function for logging and want to use custom severity levels for the strings. If you want fully custom messages then disable the colors in GC_COLOUR_X as well.
