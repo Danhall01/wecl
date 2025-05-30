@@ -1,6 +1,6 @@
-target_sources(${TARGET}
+target_sources(${LIB}
     PRIVATE
-        gcClock.c
-        gcUtility.c
-        gcError.c
+        weClock.c
+        weUtility.c
+        weError.c
 )
