@@ -1,13 +1,13 @@
-#include "gc_error.h"
-#include "gc_utility.h"
+#include "gcError.h"
+#include "gcUtility.h"
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-static gc_printCallback g_printCallback = 0;
-static bool             g_useCallback   = false;
+static gcPrintCallback g_printCallback = 0;
+static bool            g_useCallback   = false;
 
-void gc_registerLogCallback(gc_printCallback callback)
+void gcRegisterLogCallback(gcPrintCallback callback)
 {
     g_printCallback = callback;
     g_useCallback   = true;
@@ -17,7 +17,7 @@ void gc_registerLogCallback(gc_printCallback callback)
 const char* ParseMessage(enum GC_SEVERITY severity, const char* restrict msg, va_list args)
 {
     // Parse Initial message
-    size_t size    = vsnprintf(NULL, 0, msg, args);
+    size_t size    = vsnprintf(NULL, 0, msg, args) + 10;
     char*  userMsg = calloc(size, sizeof(char));
     if (userMsg == NULL)
         return NULL;
@@ -56,7 +56,7 @@ const char* ParseMessage(enum GC_SEVERITY severity, const char* restrict msg, va
         format         = "[%s](Both GC_FORMAT and GC_FORMAT_XXX has to be set)\t%s";
         severityFormat = "[FALLBACK]";
     }
-    size      = snprintf(NULL, 0, format, severityFormat, userMsg);
+    size      = snprintf(NULL, 0, format, severityFormat, userMsg) + 10;
     char* str = calloc(size, sizeof(char));
     if (!str)
         return NULL;
@@ -67,13 +67,13 @@ const char* ParseMessage(enum GC_SEVERITY severity, const char* restrict msg, va
 }
 
 
-int32_t gc_slog(enum GC_SEVERITY severity, const char* restrict msg, ...)
+int32_t gcLogs(enum GC_SEVERITY severity, const char* restrict msg, ...)
 {
 #ifndef GC_LOG_SILENT
     if (severity < GC_SEVERITY_FATAL)
-        gc_warning("Trying to format with severity %d, FATAL is %d. Message parsed as Fatal.",
-                   severity,
-                   GC_SEVERITY_FATAL);
+        gcWarning("Trying to format with severity %d, FATAL is %d. Message parsed as Fatal.",
+                  severity,
+                  GC_SEVERITY_FATAL);
 #endif
     va_list args;
     va_start(args, msg);
@@ -81,7 +81,7 @@ int32_t gc_slog(enum GC_SEVERITY severity, const char* restrict msg, ...)
     va_end(args);
 
     if (parsedMsg == NULL)
-        gc_fatal("Unable to parse message %s", msg);
+        gcFatal("Unable to parse message %s", msg);
 
     int32_t ret = 0;
     if (g_useCallback)
@@ -91,15 +91,16 @@ int32_t gc_slog(enum GC_SEVERITY severity, const char* restrict msg, ...)
     free((void*) parsedMsg);
     return ret;
 }
-int32_t gc_debug(const char* restrict msg, ...)
+int32_t gcDebug(const char* restrict msg, ...)
 {
+#ifdef _DEBUG
     va_list args;
     va_start(args, msg);
     const char* parsedMsg = ParseMessage(GC_SEVERITY_DEBUG, msg, args);
     va_end(args);
 
     if (parsedMsg == NULL)
-        gc_fatal("Unable to parse message %s", msg);
+        gcFatal("Unable to parse message %s", msg);
 
     int32_t ret = 0;
     if (g_useCallback)
@@ -108,8 +109,10 @@ int32_t gc_debug(const char* restrict msg, ...)
         ret = fprintf(stdout, "%s\n", parsedMsg);
     free((void*) parsedMsg);
     return ret;
+#endif
+    return 0;
 }
-int32_t gc_log(const char* restrict msg, ...)
+int32_t gcLog(const char* restrict msg, ...)
 {
     va_list args;
     va_start(args, msg);
@@ -117,7 +120,7 @@ int32_t gc_log(const char* restrict msg, ...)
     va_end(args);
 
     if (parsedMsg == NULL)
-        gc_fatal("Unable to parse message %s", msg);
+        gcFatal("Unable to parse message %s", msg);
 
     int32_t ret = 0;
     if (g_useCallback)
@@ -127,7 +130,7 @@ int32_t gc_log(const char* restrict msg, ...)
     free((void*) parsedMsg);
     return ret;
 }
-int32_t gc_warning(const char* restrict msg, ...)
+int32_t gcWarning(const char* restrict msg, ...)
 {
     va_list args;
     va_start(args, msg);
@@ -135,7 +138,7 @@ int32_t gc_warning(const char* restrict msg, ...)
     va_end(args);
 
     if (parsedMsg == NULL)
-        gc_fatal("Unable to parse message %s", msg);
+        gcFatal("Unable to parse message %s", msg);
 
     int32_t ret = 0;
     if (g_useCallback)
@@ -145,7 +148,7 @@ int32_t gc_warning(const char* restrict msg, ...)
     free((void*) parsedMsg);
     return ret;
 }
-int32_t gc_error(const char* restrict msg, ...)
+int32_t gcError(const char* restrict msg, ...)
 {
     va_list args;
     va_start(args, msg);
@@ -153,7 +156,7 @@ int32_t gc_error(const char* restrict msg, ...)
     va_end(args);
 
     if (parsedMsg == NULL)
-        gc_fatal("Unable to parse message %s", msg);
+        gcFatal("Unable to parse message %s", msg);
 
     int32_t ret = 0;
     if (g_useCallback)
@@ -163,7 +166,7 @@ int32_t gc_error(const char* restrict msg, ...)
     free((void*) parsedMsg);
     return ret;
 }
-void gc_fatal(const char* restrict msg, ...)
+void gcFatal(const char* restrict msg, ...)
 {
     va_list args;
     va_start(args, msg);

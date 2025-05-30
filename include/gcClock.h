@@ -27,13 +27,13 @@ typedef struct
 } gc_clock_t;
 
 // Sets the inital time for the realtime counter
-void gc_setTime(gc_clock_t timer[static 1]);
+void gcClockSetTime(gc_clock_t timer[static 1]);
 
 // Gets the time since gc_settime was called
 // @ If you want the current time, use gc_now instead.
-double gc_getTime(gc_clock_t timer[static 1]);
+double gcClockGetTime(gc_clock_t timer[static 1]);
 
 // Returns the current time since epoch in seconds
-double gc_now(void);
+double gcClockNow(void);
 
 #endif  // _GC_REALTIME_CLOCK_H_

@@ -1,7 +1,7 @@
-#include "gc_clock.h"
-#include "gc_utility.h"
+#include "gcClock.h"
+#include "gcUtility.h"
 
-void gc_setTime(gc_clock_t* timer)
+void gcClockSetTime(gc_clock_t* timer)
 {
 #if defined(_WIN32) || defined(__CYGWIN__)
     QueryPerformaceCounter(&timer->tick);
@@ -10,8 +10,7 @@ void gc_setTime(gc_clock_t* timer)
 #endif
 }
 
-
-double gc_getTime(gc_clock_t* timer)
+double gcClockGetTime(gc_clock_t* timer)
 {
     double deltaTime = 0;
 
@@ -33,7 +32,7 @@ double gc_getTime(gc_clock_t* timer)
     return deltaTime;
 }
 
-double gc_now(void)
+double gcClockNow(void)
 {
     double time = 0;
 #if defined(_WIN32) || defined(__CYGWIN__)
