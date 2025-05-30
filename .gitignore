@@ -42,3 +42,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Test Output files
+.trace_output.txt
