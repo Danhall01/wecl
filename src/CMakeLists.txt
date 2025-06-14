@@ -3,4 +3,5 @@ target_sources(${LIB}
         weClock.c
         weUtility.c
         weLogging.c
-)
+        weMemory.c
+    )
