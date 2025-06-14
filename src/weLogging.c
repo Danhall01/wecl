@@ -1,4 +1,4 @@
-#include "weError.h"
+#include "weLogging.h"
 #include "weUtility.h"
 #include <stdarg.h>
 #include <stdio.h>

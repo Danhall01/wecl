@@ -32,6 +32,7 @@ void weRegisterLogCallback(wePrintCallback callback);
 
 int32_t wePrintl(enum WECL_SEVERITY, const char* restrict msg, ...);
 int32_t weDebug(const char* restrict msg, ...);
+// int32_t weInfo(const char* restrict msg, ...); //TODO
 int32_t weLog(const char* restrict msg, ...);
 int32_t weWarning(const char* restrict msg, ...);
 int32_t weError(const char* restrict msg, ...);
