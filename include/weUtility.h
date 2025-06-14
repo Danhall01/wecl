@@ -9,7 +9,7 @@
 #define WECL_MACRO_VAR(name) _WECL_MACRO_VAR_EXPAND(name, __LINE__)
 
 // Clamps value between min and max, all typees has to be castable between eachother
-#define wecl_clamp(value, min, max) (value > max ? max : (value < min ? min : value));
+#define wecl_clamp(value, min, max) (value > max ? max : (value < min ? min : value))
 
 // Severity level of gc functions in increasing order, 0 is debug, highest is fatal error
 enum WECL_SEVERITY : uint8_t

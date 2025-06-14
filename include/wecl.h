@@ -1,9 +1,8 @@
-#ifndef _INCLUDES_H_
-#define _INCLUDES_H_
+#pragma once
 
 // Core
 #include "weUtility.h"
-#include "weError.h"
+#include "weLogging.h"
 #include "weAllocators.h"
 
 // Extras
@@ -11,5 +10,3 @@
 #include "weTimer.h"
 #include "weString.h"
 #include "weArray.h"
-
-#endif /* _INCLUDES_H_ */
