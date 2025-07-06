@@ -35,6 +35,10 @@ const char* ParseMessage(enum WECL_SEVERITY severity, const char* restrict msg, 
             format         = WECL_COLOUR_LOG WECL_FORMAT WECL_COLOUR_RESET;
             severityFormat = WECL_FORMAT_LOG;
             break;
+        case WECL_SEVERITY_INFO:
+            format         = WECL_COLOUR_INFO WECL_FORMAT WECL_COLOUR_RESET;
+            severityFormat = WECL_FORMAT_INFO;
+            break;
         case WECL_SEVERITY_TRACE:
             format         = WECL_COLOUR_TRACE WECL_FORMAT WECL_COLOUR_RESET;
             severityFormat = WECL_FORMAT_TRACE;
@@ -69,19 +73,9 @@ const char* ParseMessage(enum WECL_SEVERITY severity, const char* restrict msg, 
     return str;
 }
 
-
-int32_t wePrintl(enum WECL_SEVERITY severity, const char* restrict msg, ...)
+static int32_t InternalPrint(enum WECL_SEVERITY severity, const char* msg, va_list args)
 {
-    // #ifndef WECL_LOG_SILENT
-    //     if (severity < WECL_SEVERITY_FATAL)
-    //         weWarning("Trying to format with severity %d, FATAL is %d. Message parsed as Fatal.",
-    //                   severity,
-    //                   WECL_SEVERITY_FATAL);
-    // #endif
-    va_list args;
-    va_start(args, msg);
     const char* parsedMsg = ParseMessage(severity, msg, args);
-    va_end(args);
 
     if (parsedMsg == NULL)
         weFatal("Unable to parse message %s", msg);
@@ -98,98 +92,62 @@ int32_t wePrintl(enum WECL_SEVERITY severity, const char* restrict msg, ...)
     free((void*) parsedMsg);
     return ret;
 }
+
+
+int32_t wePrintl(enum WECL_SEVERITY severity, const char* restrict msg, ...)
+{
+    va_list args;
+    va_start(args, msg);
+    int32_t ret = InternalPrint(severity, msg, args);
+    va_end(args);
+    return ret;
+}
 int32_t weDebug(const char* restrict msg, ...)
 {
     va_list args;
     va_start(args, msg);
-    const char* parsedMsg = ParseMessage(WECL_SEVERITY_DEBUG, msg, args);
+    int32_t ret = InternalPrint(WECL_SEVERITY_DEBUG, msg, args);
     va_end(args);
-
-    if (parsedMsg == NULL)
-        weFatal("Unable to parse message %s", msg);
-
-    int32_t ret = 0;
-    if (g_printCallback != nullptr)
-        ret = g_printCallback(WECL_SEVERITY_DEBUG, parsedMsg);
-    else
-        ret = fprintf(stdout, "%s\n", parsedMsg);
-    free((void*) parsedMsg);
     return ret;
 }
 int32_t weLog(const char* restrict msg, ...)
 {
     va_list args;
     va_start(args, msg);
-    const char* parsedMsg = ParseMessage(WECL_SEVERITY_LOG, msg, args);
+    int32_t ret = InternalPrint(WECL_SEVERITY_LOG, msg, args);
     va_end(args);
-
-    if (parsedMsg == NULL)
-        weFatal("Unable to parse message %s", msg);
-
-    int32_t ret = 0;
-    if (g_printCallback != nullptr)
-        ret = g_printCallback(WECL_SEVERITY_LOG, parsedMsg);
-    else
-        ret = fprintf(stdout, "%s\n", parsedMsg);
-    free((void*) parsedMsg);
+    return ret;
+}
+int32_t weInfo(const char* restrict msg, ...)
+{
+    va_list args;
+    va_start(args, msg);
+    int32_t ret = InternalPrint(WECL_SEVERITY_INFO, msg, args);
+    va_end(args);
     return ret;
 }
 int32_t weWarning(const char* restrict msg, ...)
 {
     va_list args;
     va_start(args, msg);
-    const char* parsedMsg = ParseMessage(WECL_SEVERITY_WARNING, msg, args);
+    int32_t ret = InternalPrint(WECL_SEVERITY_WARNING, msg, args);
     va_end(args);
-
-    if (parsedMsg == NULL)
-        weFatal("Unable to parse message %s", msg);
-
-    int32_t ret = 0;
-    if (g_printCallback != nullptr)
-        ret = g_printCallback(WECL_SEVERITY_WARNING, parsedMsg);
-    else
-        ret = fprintf(stdout, "%s\n", parsedMsg);
-    free((void*) parsedMsg);
     return ret;
 }
 int32_t weError(const char* restrict msg, ...)
 {
     va_list args;
     va_start(args, msg);
-    const char* parsedMsg = ParseMessage(WECL_SEVERITY_ERROR, msg, args);
+    int32_t ret = InternalPrint(WECL_SEVERITY_ERROR, msg, args);
     va_end(args);
-
-    if (parsedMsg == NULL)
-        weFatal("Unable to parse message %s", msg);
-
-    int32_t ret = 0;
-    if (g_printCallback != nullptr)
-        ret = g_printCallback(WECL_SEVERITY_ERROR, parsedMsg);
-    else
-        ret = fprintf(stdout, "%s\n", parsedMsg);
-    free((void*) parsedMsg);
     return ret;
 }
 void weFatal(const char* restrict msg, ...)
 {
     va_list args;
     va_start(args, msg);
-    const char* parsedMsg = ParseMessage(WECL_SEVERITY_FATAL, msg, args);
+    InternalPrint(WECL_SEVERITY_FATAL, msg, args);
     va_end(args);
-
-    if (parsedMsg == NULL)
-    {
-        if (g_printCallback != nullptr)
-            g_printCallback(WECL_SEVERITY_FATAL, msg);
-        else
-            fprintf(stderr, "ERROR: Unable to parse message %s", msg);
-    }
-
-    if (g_printCallback != nullptr)
-        g_printCallback(WECL_SEVERITY_FATAL, parsedMsg);
-    else
-        fprintf(stdout, "%s\n", parsedMsg);
-    free((void*) parsedMsg);
     exit(1);
 }
 

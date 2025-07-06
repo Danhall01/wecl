@@ -19,6 +19,7 @@ run/*
 lib/*
 *.a
 *.so
+compile_commands.json
 
 # Executables
 *.exe

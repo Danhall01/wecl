@@ -16,6 +16,7 @@ bool    TestError(void)
     printf("\n== Testing with default pipe\n");
     weDebug("dbg with num 5 | %d", 5);
     weLog("formatted: %s", "Log message");
+    weInfo("Info message");
     weWarning("Warn message with double 5.0 %f", 5.0);
     weError("Error message with floating point 5.f %f", 5.f);
 

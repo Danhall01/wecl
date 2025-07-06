@@ -3,6 +3,10 @@
 
 #include "weUtility.h"
 
+// TODO: Have a fallback static memory block in case of malloc error
+// TODO: Frametrace and trace should be different severity levels
+// TODO: Frametrace should only dump to file at the end of the program
+
 // #define GC_LOG_SILENT
 
 // Format uses 2 %s, 1: the severity decal. 2: the message
@@ -10,6 +14,7 @@
 
 #define WECL_FORMAT_DEBUG "D"
 #define WECL_FORMAT_LOG "+"
+#define WECL_FORMAT_INFO "ⓘ"
 #define WECL_FORMAT_TRACE "T"
 #define WECL_FORMAT_WARNING "W"
 #define WECL_FORMAT_ERROR "E"
@@ -18,8 +23,9 @@
 #define WECL_COLOUR_RESET "\e[0m"
 
 #define WECL_COLOUR_DEBUG "\e[0;35m"    // Purple
-#define WECL_COLOUR_TRACE "\e[0;37m"    // Default clr
-#define WECL_COLOUR_LOG "\e[0;37m"      // Gray
+#define WECL_COLOUR_TRACE "\e[0;37m"    // White
+#define WECL_COLOUR_LOG "\e[0;32m"      // Green
+#define WECL_COLOUR_INFO "\e[0;37m"     // Gray
 #define WECL_COLOUR_WARNING "\e[0;33m"  // Yellow
 #define WECL_COLOUR_ERROR "\e[0;31m"    // Red
 #define WECL_COLOUR_FATAL "\e[1;91m"    // Bold Intense Red
@@ -32,8 +38,8 @@ void weRegisterLogCallback(wePrintCallback callback);
 
 int32_t wePrintl(enum WECL_SEVERITY, const char* restrict msg, ...);
 int32_t weDebug(const char* restrict msg, ...);
-// int32_t weInfo(const char* restrict msg, ...); //TODO
 int32_t weLog(const char* restrict msg, ...);
+int32_t weInfo(const char* restrict msg, ...);
 int32_t weWarning(const char* restrict msg, ...);
 int32_t weError(const char* restrict msg, ...);
 void    weFatal(const char* restrict msg, ...);
