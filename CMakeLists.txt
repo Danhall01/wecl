@@ -16,9 +16,9 @@ add_subdirectory(src)
 target_include_directories(${LIB} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 
-option(TEST_MODE "Enable or disable compiling the tests in tests folder (INSTEAD of library)" ON)
+option(TEST_MODE "Enable or disable compiling the tests in tests folder (INSTEAD of library)" OFF)
 if(TEST_MODE) # Compile test directory
-    set(TEST "app")
+    set(TEST "wecl_tests")
     add_executable(${TEST})
     add_subdirectory(tests)
 
